@@ -681,7 +681,7 @@ public class PlotCommand extends BaseCommand implements CommandExecutor {
 		// Test we are allowed to work on this plot
 		TownyAPI.getInstance().testPlotOwnerOrThrow(resident, townBlock);
 
-		if (TownBlockType.ARENA.equals(townBlockType) && TownySettings.getOutsidersPreventPVPToggle()) {
+		if ((TownBlockType.ARENA.equals(townBlockType) || TownBlockType.TRAP.equals(townBlockType)) && TownySettings.getOutsidersPreventPVPToggle()) {
 			for (Player target : Bukkit.getOnlinePlayers()) {
 				if (!townBlock.getTownOrNull().hasResident(target) && !player.getName().equals(target.getName()) && townBlock.getWorldCoord().equals(WorldCoord.parseWorldCoord(target)))
 					throw new TownyException(Translatable.of("msg_cant_toggle_pvp_outsider_in_plot"));
@@ -1186,6 +1186,11 @@ public class PlotCommand extends BaseCommand implements CommandExecutor {
 	private void tryToggleTownBlockPVP(Player player, Resident resident, TownBlock townBlock, String[] split, Town town, Optional<Boolean> choice) throws TownyException {
 		// Make sure we are allowed to set these permissions.
 		toggleTest(player, townBlock, StringMgmt.join(split, " "));
+		
+		if (townBlock.isHomeBlock()) {
+			// Homeblocks cannot have their pvp toggled.
+			throw new TownyException(Translatable.of("msg_err_cannot_toggle_pvp_homeblock"));
+		}
 
 		if (TownySettings.getPVPCoolDownTime() > 0 && !resident.isAdmin()) {
 			// Test to see if the pvp cooldown timer is active for the town this plot belongs to.
@@ -1293,6 +1298,8 @@ public class PlotCommand extends BaseCommand implements CommandExecutor {
 		}
 		if ((split.contains("pvp")) || (split.trim().equalsIgnoreCase("off"))) {
 			if (townBlock.getType().equals(TownBlockType.ARENA))
+				throw new TownyException(Translatable.of("msg_plot_pvp"));
+			else if (townBlock.getType().equals(TownBlockType.TRAP))
 				throw new TownyException(Translatable.of("msg_plot_pvp"));
 		}
 	}
@@ -1917,7 +1924,7 @@ public class PlotCommand extends BaseCommand implements CommandExecutor {
 			// Test we are allowed to work on this plot
 			TownyAPI.getInstance().testPlotOwnerOrThrow(resident, tb); // ignore the return as we
 
-			if (TownBlockType.ARENA.equals(type) && TownySettings.getOutsidersPreventPVPToggle()) {
+			if ((TownBlockType.ARENA.equals(type) || TownBlockType.TRAP.equals(type)) && TownySettings.getOutsidersPreventPVPToggle()) {
 				for (Player target : Bukkit.getOnlinePlayers()) {
 					if (!town.hasResident(target) && !player.getName().equals(target.getName()) && tb.getWorldCoord().equals(WorldCoord.parseWorldCoord(target)))
 						throw new TownyException(Translatable.of("msg_cant_toggle_pvp_outsider_in_plot"));

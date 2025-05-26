@@ -338,9 +338,9 @@ public class TownBlock extends TownyObject {
 		BukkitTools.fireEvent(new PlotChangeTypeEvent(this.type, type, this));
 
 		switch (type.getName().toLowerCase(Locale.ROOT)) {
-			case "arena":
+			case "arena", "trap":
 				setPermissions("pvp");
-				break; 
+				break;
 			case "jail":
 				setPermissions("denyAll");
 				break;
@@ -375,6 +375,8 @@ public class TownBlock extends TownyObject {
 		int typeLimit = town.getTownBlockTypeLimit(type);
 		if (typeLimit >= 0 && (typeLimit == 0 || town.getTownBlockTypeCache().getNumTownBlocks(type, TownBlockTypeCache.CacheType.ALL) >= typeLimit))
 			throw new TownyException(Translatable.of("msg_town_plot_type_limit_reached", typeLimit, type.getFormattedName()));
+		if (isHomeBlock()) 
+			throw new TownyException(Translatable.of("msg_err_cannot_change_homeblock_type"));
 		
 		// Delete a jail if this is no longer going to be a jail.
 		if (this.isJail() && !TownBlockType.JAIL.equals(type) && getJail() != null) {
@@ -382,7 +384,8 @@ public class TownBlock extends TownyObject {
 			setJail(null);
 		}
 
-		if (TownBlockType.ARENA.equals(this.type) || TownBlockType.ARENA.equals(type)
+		if (TownBlockType.ARENA.equals(this.type) || TownBlockType.ARENA.equals(type) ||
+			TownBlockType.TRAP.equals(this.type) || TownBlockType.TRAP.equals(type)
 			&& TownySettings.getPVPCoolDownTime() > 0
 			&& !TownyUniverse.getInstance().getPermissionSource().isTownyAdmin(resident.getPlayer())) {
 			// Test to see if this town is on pvp cooldown.

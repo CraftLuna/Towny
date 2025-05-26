@@ -157,6 +157,10 @@ public class CombatUtil {
 					cancelled = preventFriendlyFire(attackingPlayer, defendingPlayer, world) || preventPvP(world, attackerTB) || preventPvP(world, defenderTB) || preventJailedPVP(defendingPlayer, attackingPlayer);
 				}
 
+				if (attackerTB != null && attackerTB.isHomeBlock()) {
+					cancelled = true;
+				}
+
 				/*
 				 * A player has attempted to damage a player. Throw a TownPlayerDamagePlayerEvent.
 				 */
@@ -425,7 +429,7 @@ public class CombatUtil {
 	 */
 	public static boolean isArenaPlot(TownBlock attackerTB, TownBlock defenderTB) {
 
-		if (defenderTB != null && attackerTB != null && defenderTB.getType() == TownBlockType.ARENA && attackerTB.getType() == TownBlockType.ARENA)
+		if (defenderTB != null && attackerTB != null && (defenderTB.getType() == TownBlockType.ARENA && attackerTB.getType() == TownBlockType.ARENA || defenderTB.getType() == TownBlockType.TRAP && attackerTB.getType() == TownBlockType.TRAP))
 			return true;
 		return false;
 	}

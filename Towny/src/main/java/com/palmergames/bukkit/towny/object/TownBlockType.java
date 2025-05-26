@@ -22,6 +22,7 @@ public class TownBlockType {
 		}
 	}); // Just like residential but has additional tax
 	public static final TownBlockType ARENA = new TownBlockType("Arena"); //Always PVP enabled.
+	public static final TownBlockType TRAP = new TownBlockType("Trap"); //Always PVP enabled, and allows the use of traps.
 	public static final TownBlockType EMBASSY = new TownBlockType("Embassy", new TownBlockData() {
 		@Override
 		public double getTax(Town town) {
@@ -91,6 +92,7 @@ public class TownBlockType {
 		legacyLookupMap.put(7, "jail");
 		legacyLookupMap.put(8, "farm");
 		legacyLookupMap.put(9, "bank");
+		legacyLookupMap.put(10, "trap");
 	}
 
 	public TownBlockData getData() {

@@ -74,7 +74,7 @@ public class HealthRegenTimerTask extends TownyTimerTask {
 		if (tbAtPlayer == null)
 			return false;
 		Town townAtPlayer = tbAtPlayer.getTownOrNull();
-		return townAtPlayer != null && !townAtPlayer.hasActiveWar() && CombatUtil.isAlly(townAtPlayer, playersTown) && !tbAtPlayer.getType().equals(TownBlockType.ARENA);
+		return townAtPlayer != null && !townAtPlayer.hasActiveWar() && CombatUtil.isAlly(townAtPlayer, playersTown) && (!tbAtPlayer.getType().equals(TownBlockType.ARENA) || !tbAtPlayer.getType().equals(TownBlockType.TRAP));
 	}
 
 	private void evaluateHealth(Player player) {

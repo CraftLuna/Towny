@@ -1064,7 +1064,7 @@ public class TownyPlayerListener implements Listener {
 		}
 
 		// Sometimes we keep the inventory when they are in an Arena plot.
-		if (TownySettings.getKeepInventoryInArenas() && !keepInventory && tb.getType() == TownBlockType.ARENA)
+		if (TownySettings.getKeepInventoryInArenas() && !keepInventory && (tb.getType() == TownBlockType.ARENA || tb.getType() == TownBlockType.TRAP))
 			keepInventory = true;
 
 		return keepInventory;
@@ -1084,7 +1084,7 @@ public class TownyPlayerListener implements Listener {
 			return;
 
 		TownBlock tb = TownyAPI.getInstance().getTownBlock(event.getPlayer());
-		if (tb == null || !tb.getType().equals(TownBlockType.ARENA))
+		if (tb == null || !tb.getType().equals(TownBlockType.ARENA) || !tb.getType().equals(TownBlockType.TRAP))
 			return;
 
 		if (!ItemLists.ARMOURS.contains(event.getItem()) && !ItemLists.WEAPONS.contains(event.getItem()))
@@ -1114,7 +1114,7 @@ public class TownyPlayerListener implements Listener {
 			return true;
 
 		// We sometimes keep experience in Arena Plots.
-		return type != null && type == TownBlockType.ARENA && TownySettings.getKeepExperienceInArenas();
+		return type != null && (type == TownBlockType.ARENA || type == TownBlockType.TRAP) && TownySettings.getKeepExperienceInArenas();
 	}
 
 	/**

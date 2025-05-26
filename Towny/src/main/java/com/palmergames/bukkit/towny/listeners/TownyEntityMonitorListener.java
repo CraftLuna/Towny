@@ -242,7 +242,7 @@ public class TownyEntityMonitorListener implements Listener {
 
 	private boolean killedInInvalidTownBlockType(Player defenderPlayer) {
 		TownBlock townBlock = TownyAPI.getInstance().getTownBlock(defenderPlayer);
-		return townBlock != null && (townBlock.getType().equals(TownBlockType.ARENA) || townBlock.getType().equals(TownBlockType.JAIL));
+		return townBlock != null && (townBlock.getType().equals(TownBlockType.ARENA) || townBlock.getType().equals(TownBlockType.JAIL) || townBlock.getType().equals(TownBlockType.TRAP));
 	}
 
 	private void isJailingAttackers(Player defenderPlayer, Resident attackerResident, Resident defenderResident) {
@@ -253,6 +253,7 @@ public class TownyEntityMonitorListener implements Listener {
 		Town attackerTown = attackerResident.getTownOrNull();
 		if (townBlock == null                              // Player died in the Wilderness.
 			|| townBlock.getType() == TownBlockType.ARENA  // Player died in an Arena plot.
+			|| townBlock.getType() == TownBlockType.TRAP   // Player died in a Trap plot.
 			|| !attackerResident.hasTown()                 // Attacker has no town.
 			|| alreadyJailed(defenderResident, townBlock)  // Player was already jailed.
 			|| !hasJailingNode(attackerResident)           // Attacker doesn't have permission to jail.

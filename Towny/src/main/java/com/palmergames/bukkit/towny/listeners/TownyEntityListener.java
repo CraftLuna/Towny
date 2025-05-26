@@ -210,7 +210,7 @@ public class TownyEntityListener implements Listener {
 		if (townBlock == null)
 			return;
 		
-		if (entity instanceof Monster && townBlock.getType() == TownBlockType.ARENA)
+		if (entity instanceof Monster && (townBlock.getType() == TownBlockType.ARENA || townBlock.getType() == TownBlockType.TRAP))
 			event.getDrops().clear();
 	}
 	
