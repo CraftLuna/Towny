@@ -7,10 +7,10 @@ import java.util.Objects;
 
 public class TownyPermission {
 	public enum ActionType {
-		BUILD (0, "İnşa"),
-		DESTROY (1, "Yıkım"),
-		SWITCH (2, "Anahtar"),
-		ITEM_USE (3, "Eşya Kullanımı");
+		BUILD (0, "Build"),
+		DESTROY (1, "Destroy"),
+		SWITCH (2, "Switch"),
+		ITEM_USE (3, "ItemUse");
 
 		// This is a static copy of the values to avoid Enum.values() which copies all the values to a new array
 		// Since this is MUTABLE, we don't have a public call to it, restricting it to this class
